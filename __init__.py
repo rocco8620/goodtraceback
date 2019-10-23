@@ -30,21 +30,22 @@ def __print_exc_plus(exctype, value, trb):
                                                  frame.f_code.co_filename,
                                                  frame.f_lineno))
             for key, value in frame.f_locals.items(  ):
-                rep = value.__repr__()
-                # If the repr string of the object is too long (very long strings, web pages, etc)
-                # we print only the first 1024 characters
-                if len(rep) > 1024:
-                    key = 'len(%d) ' % len(rep) + key
-                    rep = rep[:1024]
-
-                sys.stderr.write("\t%20s = " % key)
-        
                 try:
+                    rep = value.__repr__()
+                    # If the repr string of the object is too long (very long strings, web pages, etc)
+                    # we print only the first 1024 characters
+                    if len(rep) > 1024:
+                        key = 'len(%d) ' % len(rep) + key
+                        rep = rep[:1024]
+
+                    sys.stderr.write("\t%20s = " % key)
+         
                     sys.stderr.write(rep + '\n')
                 except:
-                    sys.stderr.write("<ERROR WHILE PRINTING VALUE>\n")
+                    sys.stderr.write("<ERROR WHILE PRINTING VALUE OF '{}'>\n".format(key))
 
 
 
 
 sys.excepthook = __print_exc_plus
+
